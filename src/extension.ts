@@ -43,7 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
 	});
   
 	//showing bar 
-	const linkedInPostSidebarProvider = new LinkedInPostSidebarProvider(context.extensionUri);
+	const linkedInPostSidebarProvider = new LinkedInPostSidebarProvider(context.extensionUri,context);
     // context.subscriptions.push(
 		const disposable2 = vscode.window.registerWebviewViewProvider("linkedinpost-sidebar", linkedInPostSidebarProvider);
 		const disposableExplorer = vscode.window.registerWebviewViewProvider("linkedinpost-explorer", linkedInPostSidebarProvider);
@@ -54,7 +54,7 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 
-async function createCarbonImage(code: string): Promise<string> {
+export async function createCarbonImage(code: string): Promise<string> {
 	const response = await axios.post('https://carbonara.vercel.app/api/cook', {
 	  code,
 	  theme: 'one-dark',
@@ -68,7 +68,7 @@ async function createCarbonImage(code: string): Promise<string> {
 	return `data:image/png;base64,${imageData}`;
   }
   
-  async function openImageInFile(context: vscode.ExtensionContext, data: string) {
+export async function openImageInFile(context: vscode.ExtensionContext, data: string) {
 	const base64Data = data.replace(/^data:image\/png;base64,/, '');
   
 	const tempDirUri = vscode.Uri.joinPath(context.extensionUri, '.temp');
