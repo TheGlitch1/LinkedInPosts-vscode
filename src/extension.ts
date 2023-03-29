@@ -92,6 +92,7 @@ export async function openImageInFile(context: vscode.ExtensionContext, data: st
 	  viewColumn: vscode.ViewColumn.Beside,
 	});
 	await open(imagePath.fsPath);
+	return imagePath.fsPath;
   }
 
 async function openImageInBrowser(url: string) {

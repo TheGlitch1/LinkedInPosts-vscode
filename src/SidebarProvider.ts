@@ -23,7 +23,9 @@ export class LinkedInPostSidebarProvider implements vscode.WebviewViewProvider {
          webviewView.webview.onDidReceiveMessage(async (message) => {
             const { code } = message;
             const imageData = await createCarbonImage(code);
-            await openImageInFile(this._context, imageData);
+            let imagePath = await openImageInFile(this._context, imageData);
+            const imagePathUri = webviewView.webview.asWebviewUri(vscode.Uri.file(imagePath));
+            webviewView.webview.postMessage({ command: 'imageReady', imagePath: imagePathUri.toString() }); //hideLoader
         });
     }
 
@@ -95,7 +97,18 @@ export class LinkedInPostSidebarProvider implements vscode.WebviewViewProvider {
                     const imageContainer = document.getElementById('imageContainer');
                     const postData = { description, code };
                     loader.style.display = 'block';
-                    // vscode.postMessage(postData);
+                    vscode.postMessage(postData);
+                });
+
+                window.addEventListener('message', (event) => {
+                    const message = event.data;
+                    if (message.command === 'imageReady') {
+                        const loader = document.getElementById('loader');
+                        const imageContainer = document.getElementById('imageContainer');
+                        loader.style.display = 'none';
+                        console.log("image path from html",message.imagePath.path );
+                        imageContainer.innerHTML = \`<img src="\${message.imagePath}" alt="Generated Image" />\`;
+                    }
                 });
             </script>
         </body>
