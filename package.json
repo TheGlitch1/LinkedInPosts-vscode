@@ -28,7 +28,7 @@
             "activitybar": [{
                 "id": "linkedinpost-sidebar-view",
                 "title": "LINKEDIN POST",
-                "icon": "resources/linkInPost-preview.png"
+                "icon": "resources/assets/linkInPost-preview.png"
             }]
         },
         "views": {
@@ -36,14 +36,14 @@
                 "type": "webview",
                 "id": "linkedinpost-sidebar",
                 "name": "",
-                "icon": "resources/linkInPost-preview.png",
+                "icon": "resources/assets/linkInPost-preview.png",
                 "contextualTitle": "linkedinpost"
             }],
             "explorer": [{
                 "type": "webview",
                 "id": "linkedinpost-explorer",
                 "name": "LinkedIn Post",
-                "icon": "resources/linkInPost-preview.png",
+                "icon": "resources/assets/linkInPost-preview.png",
                 "contextualTitle": "linkedinpost"
             }]
         }

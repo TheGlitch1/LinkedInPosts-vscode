@@ -17,6 +17,12 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.showInformationMessage('Hello World from LinkedInPost!');
 	});
 	console.log("TEST TES TEST TEST")
+
+	/* const quickLinkedIn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right)
+	quickLinkedIn.text = "$(beaker) Quick LinkedIn Post"
+	quickLinkedIn.command = 'linkedinpost.createImage'
+	quickLinkedIn.show() */
+
 	const disposable1 = vscode.commands.registerCommand('linkedinpost.createImage', async () => {
 	  const editor = vscode.window.activeTextEditor;
 	  console.log("Test create image")
@@ -34,8 +40,14 @@ export function activate(context: vscode.ExtensionContext) {
 	  try {
 		const imageData = await createCarbonImage(code);
 		console.log('Image data received');
-		await openImageInFile(context, imageData);
+		const imagePath = await openImageInFile(context, imageData);
 		vscode.window.showInformationMessage('Image created and opened in the default image viewer.');
+		
+		//send the generated image to the panel
+		/* vscode.commands.executeCommand('linkedinpost-sidebar.focus');
+		const imagePathUri = linkedInPostSidebarProvider._view?.webview.asWebviewUri(vscode.Uri.file(imagePath));
+		linkedInPostSidebarProvider._view?.webview.postMessage({ command: 'imageReady', imagePath: imagePathUri?.toString() });
+		*/
 	  } catch (error:any) {
 		vscode.window.showErrorMessage('Failed to create image: ' + error.message);
 		console.error(error);
@@ -44,10 +56,8 @@ export function activate(context: vscode.ExtensionContext) {
   
 	//showing bar 
 	const linkedInPostSidebarProvider = new LinkedInPostSidebarProvider(context.extensionUri,context);
-    // context.subscriptions.push(
-		const disposable2 = vscode.window.registerWebviewViewProvider("linkedinpost-sidebar", linkedInPostSidebarProvider);
-		const disposableExplorer = vscode.window.registerWebviewViewProvider("linkedinpost-explorer", linkedInPostSidebarProvider);
-	// );
+	const disposable2 = vscode.window.registerWebviewViewProvider("linkedinpost-sidebar", linkedInPostSidebarProvider);
+	const disposableExplorer = vscode.window.registerWebviewViewProvider("linkedinpost-explorer", linkedInPostSidebarProvider);
 
 	// context.subscriptions.push(disposable1);
 	context.subscriptions.push(disposable,disposable1,disposable2,disposableExplorer);
@@ -91,7 +101,8 @@ export async function openImageInFile(context: vscode.ExtensionContext, data: st
 	  preview: false,
 	  viewColumn: vscode.ViewColumn.Beside,
 	});
-	await open(imagePath.fsPath);
+	//TODO: enable when you want to open the image in the default image viewer.
+	// await open(imagePath.fsPath);
 	return imagePath.fsPath;
   }
 
