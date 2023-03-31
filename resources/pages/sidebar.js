@@ -24,17 +24,20 @@ document.getElementById('createPost').addEventListener('click', () => {
         loader.style.display = 'none';
         vscode.postMessage({ command: 'showError', message: 'Please fill in both the description and code fields.' });
         return;
-    } else {
-        code.style.display = 'none'
-        imageContainer.innerHTML = "";
-        const postData = { description: description.value, code: code.value };
-        vscode.postMessage(postData);
-        btnGeneratePost.style.display = 'none';
     }
+    code.style.display = 'none'
+    imageContainer.innerHTML = "";
+    const readDescription = description.value,
+        readCode = code.value
+    const postData = { description: readDescription, code: readCode };
+    vscode.postMessage(postData);
+    btnGeneratePost.style.display = 'none';
+
 });
 
 window.addEventListener('message', (event) => {
     const message = event.data;
+    resteSidePanel();
     if (message.command === 'imageReady') {
 
         code.value = '';
@@ -49,10 +52,16 @@ window.addEventListener('message', (event) => {
 });
 
 btnNewPost.addEventListener('click', () => {
+    resteSidePanel()
+
+});
+
+function resteSidePanel() {
     code.style.display = 'block';
     code.value = '';
     btnGeneratePost.style.display = 'block';
+    imageContainer.innerHTML = ""
 
     btnNewPost.style.display = 'none';
     btnSharePost.style.display = 'none';
-});
+}

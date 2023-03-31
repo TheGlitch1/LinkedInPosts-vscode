@@ -21,11 +21,11 @@ export class LinkedInPostSidebarProvider implements vscode.WebviewViewProvider {
         //Listner postMessage
          // Listen for messages from the webview
          webviewView.webview.onDidReceiveMessage(async (message) => {
+             if(message.command == 'showError'){
+                 vscode.window.showErrorMessage(message.message);
+                 return;
+                }
             const { code } = message;
-            if(message.command = 'showError'){
-                vscode.window.showErrorMessage(message.message);
-                return;
-            }
             const imageData = await createCarbonImage(code);
             let imagePath = await openImageInFile(this._context, imageData);
             const imagePathUri = webviewView.webview.asWebviewUri(vscode.Uri.file(imagePath));

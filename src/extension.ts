@@ -18,10 +18,10 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 	console.log("TEST TES TEST TEST")
 
-	/* const quickLinkedIn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right)
+	const quickLinkedIn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right)
 	quickLinkedIn.text = "$(beaker) Quick LinkedIn Post"
 	quickLinkedIn.command = 'linkedinpost.createImage'
-	quickLinkedIn.show() */
+	quickLinkedIn.show()
 
 	const disposable1 = vscode.commands.registerCommand('linkedinpost.createImage', async () => {
 	  const editor = vscode.window.activeTextEditor;
@@ -44,10 +44,10 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.showInformationMessage('Image created and opened in the default image viewer.');
 		
 		//send the generated image to the panel
-		/* vscode.commands.executeCommand('linkedinpost-sidebar.focus');
+		vscode.commands.executeCommand('linkedinpost-sidebar.focus');
 		const imagePathUri = linkedInPostSidebarProvider._view?.webview.asWebviewUri(vscode.Uri.file(imagePath));
 		linkedInPostSidebarProvider._view?.webview.postMessage({ command: 'imageReady', imagePath: imagePathUri?.toString() });
-		*/
+		
 	  } catch (error:any) {
 		vscode.window.showErrorMessage('Failed to create image: ' + error.message);
 		console.error(error);
