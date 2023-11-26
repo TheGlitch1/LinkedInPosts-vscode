@@ -16,16 +16,16 @@ export function activate(context: vscode.ExtensionContext) {
 
 		vscode.window.showInformationMessage('Hello World from LinkedInPost!');
 	});
-	console.log("TEST TES TEST TEST")
+	console.log("TEST TES TEST TEST");
 
 	const quickLinkedIn = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right)
-	quickLinkedIn.text = "$(beaker) Quick LinkedIn Post"
-	quickLinkedIn.command = 'linkedinpost.createImage'
-	quickLinkedIn.show()
+	quickLinkedIn.text = "$(beaker) Quick LinkedIn Post";
+	quickLinkedIn.command = 'linkedinpost.createImage';
+	quickLinkedIn.show();
 
 	const disposable1 = vscode.commands.registerCommand('linkedinpost.createImage', async () => {
 	  const editor = vscode.window.activeTextEditor;
-	  console.log("Test create image")
+	  console.log("Test create image");
 	  if (!editor) {
 		vscode.window.showInformationMessage('You need to have a code editor open to use this extension.');
 		return;
